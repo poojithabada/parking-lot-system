@@ -212,7 +212,7 @@ export default function App() {
         <div className="brand-section">
           <div className="brand-logo">P</div>
           <div className="brand-title-group">
-            <h1>Antigravity Valet</h1>
+            <h1>Parking Valet</h1>
             <p>Smart Parking Space Management System</p>
           </div>
         </div>
