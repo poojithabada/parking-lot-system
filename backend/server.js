@@ -1,12 +1,19 @@
-const express = require('express');
-const cors = require('cors');
-const { getDb } = require('./db');
+const express = require("express");
+const cors = require("cors");
+const { getDb } = require("./db");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS and JSON parsing
-app.use(cors());
+app.use(cors({
+    origin: [
+        "http://localhost:5173",
+        "https://parking-lot-system-liard.vercel.app"
+    ],
+    methods: ["GET", "POST"],
+    credentials: true
+}));
+
 app.use(express.json());
 
 // Fixed slot limits
