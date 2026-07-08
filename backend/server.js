@@ -107,7 +107,7 @@ app.post('/api/park', async (req, res) => {
 
     // Validation: Vehicle already parked
     const alreadyParked = await db.get(
-      'SELECT id FROM tickets WHERE vehicle_number = ? AND status = "parked" LIMIT 1',
+      "SELECT id FROM tickets WHERE vehicle_number = ? AND status = 'parked' LIMIT 1",
       [plate]
     );
     if (alreadyParked) {
@@ -116,7 +116,7 @@ app.post('/api/park', async (req, res) => {
 
     // Validation: Parking Full
     const activeQuery = await db.get(
-      'SELECT COUNT(*) AS occupied FROM tickets WHERE vehicle_type = ? AND status = "parked"',
+      "SELECT COUNT(*) AS occupied FROM tickets WHERE vehicle_type = ? AND status = 'parked'",
       [type]
     );
     const occupiedCount = activeQuery ? activeQuery.occupied : 0;
@@ -173,13 +173,13 @@ app.post('/api/exit', async (req, res) => {
     let ticket = null;
     if (ticketId) {
       ticket = await db.get(
-        'SELECT * FROM tickets WHERE ticket_id = ? AND status = "parked"',
+        "SELECT * FROM tickets WHERE ticket_id = ? AND status = 'parked'",
         [ticketId.toUpperCase().trim()]
       );
     } else if (vehicleNumber) {
       // FIXED SYNTAX ERROR HERE
       ticket = await db.get(
-        'SELECT * FROM tickets WHERE vehicle_number = ? AND status = "parked"',
+        "SELECT * FROM tickets WHERE vehicle_number = ? AND status = 'parked'",
         [vehicleNumber.toUpperCase().trim()]
       );
     }
