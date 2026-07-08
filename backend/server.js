@@ -127,7 +127,8 @@ app.post('/api/park', async (req, res) => {
     const parkTime = entryTime || new Date().toISOString();
 
     // Insert new ticket using a temporary ID to ensure UNIQUE NOT NULL database constraint
-    const tempTicketId = `TKT-TEMP-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+    // This is short and safe (~14 chars)
+const tempTicketId = `TMP-${Math.random().toString(36).substring(2, 11).toUpperCase()}`;
     const result = await db.run(
       `INSERT INTO tickets (ticket_id, vehicle_number, vehicle_type, entry_time, status) 
        VALUES (?, ?, ?, ?, 'parked')`,
