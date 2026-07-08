@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Parking Lot System
 
 A full-stack parking lot management dashboard built with **React**, **Node.js (Express)**, and **SQL** (SQLite by default, MySQL compatible).
@@ -87,3 +88,6 @@ We have added **PostgreSQL** support so you can easily deploy the system to prod
 3. **Frontend**: Deploy the `frontend/` folder to Vercel, and set the `VITE_API_URL` environment variable to point to your Render backend web service.
 
 *For complete, step-by-step instructions, see the [Deployment Guide](file:///C:/Users/pooji/.gemini/antigravity/brain/e07d2099-df04-4a9f-baf4-c32a7f718371/deployment_guide.md) artifact.*
+=======
+# parking-lot-system
+>>>>>>> d8cc68c46a4ed0270d87d0ef1abf0f61470fbb80
