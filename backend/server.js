@@ -149,10 +149,14 @@ app.post('/api/park', async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error parking vehicle:', error);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
-  }
-});
+  console.error("PARK ERROR:", error);
+
+  return res.status(500).json({
+    success: false,
+    message: error.message,
+    stack: error.stack
+  });
+}
 
 // 3. POST /api/exit
 app.post('/api/exit', async (req, res) => {
