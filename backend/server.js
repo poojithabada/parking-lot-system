@@ -181,7 +181,7 @@ app.post('/api/exit', async (req, res) => {
       );
     } else if (vehicleNumber) {
       ticket = await db.get(
-        'SELECT * FROM tickets WHERE vehicle_number = ? AND status = 'parked'',
+        'SELECT * FROM tickets WHERE vehicle_number = ? AND status = "parked"',
         [vehicleNumber.toUpperCase().trim()]
       );
     }
