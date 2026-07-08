@@ -5,7 +5,6 @@ const { getDb } = require("./db");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-
 app.use(cors({
   origin: [
     "http://localhost:5173",
@@ -66,7 +65,7 @@ app.get('/api/slots', async (req, res) => {
     
     rows.forEach(row => {
       const type = row.vehicle_type.toLowerCase();
-      if (occupiedCounts.hasOwnProperty(type)) {
+      if (Object.hasOwn(occupiedCounts, type)) {
         occupiedCounts[type] = row.occupied;
       }
     });
@@ -88,10 +87,10 @@ app.get('/api/slots', async (req, res) => {
 app.post('/api/park', async (req, res) => {
   try {
     const db = await getDb();
-console.log("Database Connected");
+    console.log("Database Connected");
 
-const { vehicleNumber, vehicleType, entryTime } = req.body;
-console.log("Request Body:", req.body);
+    const { vehicleNumber, vehicleType, entryTime } = req.body;
+    console.log("Request Body:", req.body);
 
     // Validation: Empty request body or missing fields
     if (!vehicleNumber || !vehicleType) {
@@ -102,7 +101,7 @@ console.log("Request Body:", req.body);
     const plate = vehicleNumber.toUpperCase().trim();
 
     // Validation: Invalid vehicle type
-    if (!LIMITS.hasOwnProperty(type)) {
+    if (!Object.hasOwn(LIMITS, type)) {
       return res.status(400).json({ success: false, message: 'Invalid vehicle type. Allowed types: bike, car, truck' });
     }
 
@@ -152,13 +151,12 @@ console.log("Request Body:", req.body);
       }
     });
   } catch (error) {
-  console.error("PARK ERROR:", error);
-
-  return res.status(500).json({
-    success: false,
-    message: error.message,
-    stack: error.stack
-  });
+    console.error("PARK ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      stack: error.stack
+    });
   }
 });
 
@@ -174,12 +172,12 @@ app.post('/api/exit', async (req, res) => {
 
     let ticket = null;
     if (ticketId) {
-    
       ticket = await db.get(
         'SELECT * FROM tickets WHERE ticket_id = ? AND status = "parked"',
         [ticketId.toUpperCase().trim()]
       );
     } else if (vehicleNumber) {
+      // FIXED SYNTAX ERROR HERE
       ticket = await db.get(
         'SELECT * FROM tickets WHERE vehicle_number = ? AND status = "parked"',
         [vehicleNumber.toUpperCase().trim()]
