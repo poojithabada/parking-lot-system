@@ -5,15 +5,19 @@ const { getDb } = require("./db");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
 app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://parking-lot-system-liard.vercel.app"
-    ],
-    methods: ["GET", "POST"],
-    credentials: true
+  origin: [
+    "http://localhost:5173",
+    "https://parking-lot-system-128v3au5w-poojithabadas-projects.vercel.app",
+    "https://parking-lot-system-liard.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
 
+app.options("*", cors());
 app.use(express.json());
 
 // Fixed slot limits
