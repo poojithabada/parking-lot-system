@@ -87,10 +87,8 @@ app.get('/api/slots', async (req, res) => {
 app.post('/api/park', async (req, res) => {
   try {
     const db = await getDb();
-    console.log("Database Connected");
 
     const { vehicleNumber, vehicleType, entryTime } = req.body;
-    console.log("Request Body:", req.body);
 
     // Validation: Empty request body or missing fields
     if (!vehicleNumber || !vehicleType) {
@@ -105,18 +103,18 @@ app.post('/api/park', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid vehicle type. Allowed types: bike, car, truck' });
     }
 
-    // Validation: Vehicle already parked
+    // Validation: Vehicle already parked (Uses single quotes for PostgreSQL compatibility)
     const alreadyParked = await db.get(
-      "SELECT id FROM tickets WHERE vehicle_number = ? AND status = 'parked' LIMIT 1",
+      `SELECT id FROM tickets WHERE vehicle_number = ? AND status = 'parked' LIMIT 1`,
       [plate]
     );
     if (alreadyParked) {
       return res.status(400).json({ success: false, message: `Vehicle ${plate} is already parked` });
     }
 
-    // Validation: Parking Full
+    // Validation: Parking Full (Uses single quotes for PostgreSQL compatibility)
     const activeQuery = await db.get(
-      "SELECT COUNT(*) AS occupied FROM tickets WHERE vehicle_type = ? AND status = 'parked'",
+      `SELECT COUNT(*) AS occupied FROM tickets WHERE vehicle_type = ? AND status = 'parked'`,
       [type]
     );
     const occupiedCount = activeQuery ? activeQuery.occupied : 0;
@@ -173,13 +171,12 @@ app.post('/api/exit', async (req, res) => {
     let ticket = null;
     if (ticketId) {
       ticket = await db.get(
-        "SELECT * FROM tickets WHERE ticket_id = ? AND status = 'parked'",
+        `SELECT * FROM tickets WHERE ticket_id = ? AND status = 'parked'`,
         [ticketId.toUpperCase().trim()]
       );
     } else if (vehicleNumber) {
-      // FIXED SYNTAX ERROR HERE
       ticket = await db.get(
-        "SELECT * FROM tickets WHERE vehicle_number = ? AND status = 'parked'",
+        `SELECT * FROM tickets WHERE vehicle_number = ? AND status = 'parked'`,
         [vehicleNumber.toUpperCase().trim()]
       );
     }
