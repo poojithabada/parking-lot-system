@@ -88,7 +88,10 @@ app.get('/api/slots', async (req, res) => {
 app.post('/api/park', async (req, res) => {
   try {
     const db = await getDb();
-    const { vehicleNumber, vehicleType, entryTime } = req.body;
+console.log("Database Connected");
+
+const { vehicleNumber, vehicleType, entryTime } = req.body;
+console.log("Request Body:", req.body);
 
     // Validation: Empty request body or missing fields
     if (!vehicleNumber || !vehicleType) {
@@ -156,7 +159,8 @@ app.post('/api/park', async (req, res) => {
     message: error.message,
     stack: error.stack
   });
-}
+  }
+});
 
 // 3. POST /api/exit
 app.post('/api/exit', async (req, res) => {
